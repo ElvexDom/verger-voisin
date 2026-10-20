@@ -161,3 +161,22 @@ référentiel concernée, et qui l'a validée. Les entrées sont classées par d
   dépendances, pour que la reconstruction de l'image redonne exactement le même environnement.
 - **Compétences** : C1, C4 (procédure d'installation reproductible).
 - **Validé par** : Nikko (accord donné pour l'installation).
+
+## 2026-10-20 : Versions figées
+
+- **Décision** : figer les versions à trois niveaux :
+  - images Docker à la version précise (`postgres:17.11-bookworm`,
+    `python:3.12.15-slim-trixie`) plutôt qu'à la version majeure ;
+  - dépendances directes à la version exacte dans `requirements.txt` et
+    `requirements-dev.txt` ;
+  - toutes les dépendances, indirectes comprises, dans `requirements-verrou.txt`, utilisé comme
+    fichier de contraintes par le `Dockerfile`.
+- **Justification** : sans versions figées, reconstruire l'image plus tard pourrait installer
+  des versions plus récentes et changer le comportement du projet. Le critère de C4 demande que
+  la procédure d'installation reproduise un système conforme.
+- **Vérification** : sur le serveur, image reconstruite avec les versions figées, contrôle à 3
+  sur 3, 133 tests sur 133, et versions installées identiques au verrou.
+- **Écarté** : un gestionnaire de dépendances plus complet (Poetry, uv), jugé inutile à ce
+  stade : `pip` avec un fichier de contraintes suffit et reste simple à documenter.
+- **Compétences** : C4.
+- **Validé par** : Nikko.
