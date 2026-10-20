@@ -116,8 +116,11 @@ VPS, lui, ne fait que `git pull` et n'a donc pas besoin de droits d'écriture su
    *Résultat attendu* : le commit est créé, puis la branche apparaît sur GitHub.
 4. **Retrouver le commit depuis le ticket** : ouvrir le ticket n° 1 sur GitHub.
    *Résultat attendu* : une ligne dans la chronologie indique que le commit
-   « Tester le lien entre commit et ticket (#1) » fait référence au ticket. *(À vérifier : si
-   la ligne n'apparaît pas pour une branche non fusionnée, l'étape 5 suffit à créer le lien.)*
+   « Tester le lien entre commit et ticket (#1) » fait référence au ticket.
+   *Constaté le 2026-10-20 (ticket n° 1)* : tant que la branche n'est pas fusionnée, le commit
+   n'apparaît pas dans le ticket. C'est l'étape 5 qui crée le lien : après la fusion, la
+   chronologie du ticket montre la demande de fusion, le commit de fusion qui le cite, et la
+   fermeture automatique.
 5. **Ouvrir une demande de fusion** vers `main` avec `Closes #1` dans la description, la fusionner
    (« Create a merge commit »), supprimer la branche. *Résultat attendu* : le ticket n° 1 est
    fermé automatiquement et la demande de fusion est visible dans sa chronologie.

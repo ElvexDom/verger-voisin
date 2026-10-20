@@ -180,3 +180,18 @@ référentiel concernée, et qui l'a validée. Les entrées sont classées par d
   stade : `pip` avec un fichier de contraintes suffit et reste simple à documenter.
 - **Compétences** : C4.
 - **Validé par** : Nikko.
+
+## 2026-10-20 : Test du lien entre commit, ticket et demande de fusion
+
+- **Action** : procédure de `docs/versionnement.md` (section 6) déroulée sur GitHub : ticket
+  n° 1, branche `tache/1-test-versionnement`, commit citant `(#1)`, demande de fusion n° 2
+  contenant `Closes #1`, fusion, suppression de la branche.
+- **Constat** : le commit poussé sur la branche n'apparaît pas dans le ticket tant que la
+  branche n'est pas fusionnée. Après la fusion, la chronologie du ticket montre la référence
+  croisée de la demande de fusion n° 2, le commit de fusion qui cite le ticket, et la fermeture
+  automatique du ticket.
+- **Justification** : chaque incident traité en E5 sera ainsi retrouvable depuis son ticket,
+  comme le demande le critère de C21 (« la procédure de débogage du code est documentée depuis
+  l'outil de suivi »). La documentation a été corrigée d'après ce constat.
+- **Compétences** : C21 (préparation), critère A19 du lot 1.
+- **Validé par** : Nikko (fusion faite par lui sur GitHub).
