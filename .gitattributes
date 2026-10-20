@@ -1,0 +1,10 @@
+# Les scripts shell doivent garder des fins de ligne Unix (LF), même s'ils sont
+# édités sous Windows : sinon bash les refuse sur le serveur (et Docker refuse
+# un Dockerfile ou un script monté dans un conteneur avec des fins de ligne Windows).
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+.env.example text eol=lf

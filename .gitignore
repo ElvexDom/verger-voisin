@@ -1,0 +1,54 @@
+# .gitignore : Verger Voisin
+# Règle générale : aucun secret, aucune donnée volumineuse, aucun fichier généré dans Git.
+
+# --- Secrets : le vrai .env ne doit JAMAIS être commité ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Données (l'emplacement conseillé est hors du dépôt, voir DONNEES_DIR) ---
+# Le dossier donnees/ existe dans le dépôt (marqueur .gitkeep) mais son contenu est ignoré.
+donnees/*
+!donnees/.gitkeep
+
+# Formats de fichiers de données et de sauvegardes, où qu'ils soient
+*.parquet
+*.jsonl
+*.csv.gz
+*.json.gz
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+
+# --- Journaux (voir JOURNAUX_DIR) ---
+journaux/*
+!journaux/.gitkeep
+*.log
+
+# --- Environnement Python isolé et caches ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# --- Fichiers créés par Spark en local ---
+spark-warehouse/
+metastore_db/
+derby.log
+
+# --- Fichiers d'OS et d'éditeur ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp

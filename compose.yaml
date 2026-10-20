@@ -1,0 +1,119 @@
+# compose.yaml : environnement de Verger Voisin (Docker Compose).
+#
+# Deux services :
+#   - postgres : la base de données PostgreSQL (image officielle) ;
+#   - travail  : l'environnement de travail (Python + Java + PySpark), construit depuis le
+#                Dockerfile du dépôt. Il ne tourne que quand on le lance (profil « travail »).
+#
+# Les valeurs viennent du fichier .env (modèle : .env.example) : identifiants de la base,
+# étiquettes d'image, chemins des dossiers sur l'hôte. Aucun secret n'est écrit ici.
+# Les valeurs après « :- » sont des valeurs par défaut non secrètes.
+#
+# Commandes (avec sudo tant que ton utilisateur n'est pas dans le groupe « docker »), depuis
+# la racine du dépôt. Le plus simple est de passer par les scripts :
+#     bash scripts/installer.sh     # prépare tout (relançable)
+#     bash scripts/verifier.sh      # contrôle de bon fonctionnement
+
+name: verger-voisin
+
+services:
+  postgres:
+    # À VÉRIFIER SUR LE SERVEUR : l'étiquette existe sur Docker Hub. PostgreSQL 17 : version
+    # majeure choisie en hypothèse. Un changement de version majeure demande une migration
+    # des données : ne change pas IMAGE_POSTGRES vers une autre version majeure sans la prévoir.
+    image: ${IMAGE_POSTGRES:-postgres:17-bookworm}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB est vide dans .env}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER est vide dans .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD est vide dans .env}
+    volumes:
+      # Volume nommé : les données de la base survivent à l'arrêt et à la recréation du
+      # conteneur. Seul « docker compose down -v » (ou « docker volume rm ») les efface.
+      - donnees_postgres:/var/lib/postgresql/data
+    networks:
+      - reseau
+    # AUCUNE section « ports » : la base n'est pas publiée sur l'hôte, elle n'est joignable
+    # que par les autres conteneurs du projet (nom d'hôte : postgres). Pour un accès depuis
+    # l'hôte (tunnel SSH), voir compose.acces-hote.yaml (limité à 127.0.0.1).
+    healthcheck:
+      # $$ : le signe $ est lu par le conteneur, pas par Compose.
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  travail:
+    profiles: ["travail"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Mêmes valeurs par défaut que dans le Dockerfile et dans .env.example.
+        IMAGE_PYTHON: ${IMAGE_PYTHON:-python:3.12-slim-trixie}
+        JAVA_PAQUET: ${JAVA_PAQUET:-openjdk-21-jre-headless}
+        CONTENEUR_UID: ${CONTENEUR_UID:-1000}
+        CONTENEUR_GID: ${CONTENEUR_GID:-1000}
+    image: ${IMAGE_TRAVAIL:-verger-voisin-travail:local}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    working_dir: /app
+    environment:
+      # La base est jointe par le nom du service Compose et le port interne de PostgreSQL.
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB est vide dans .env}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER est vide dans .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD est vide dans .env}
+      SPARK_DRIVER_MEMORY: ${SPARK_DRIVER_MEMORY:-}
+      SPARK_NB_COEURS: ${SPARK_NB_COEURS:-}
+      OFF_API_BASE_URL: ${OFF_API_BASE_URL:-}
+      OFF_APP_NOM: ${OFF_APP_NOM:-}
+      OFF_APP_LIEN_DEPOT: ${OFF_APP_LIEN_DEPOT:-}
+      OFF_CODE_BARRES_TEST: ${OFF_CODE_BARRES_TEST:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_FORMAT: ${LOG_FORMAT:-texte}
+      # Emplacements DANS le conteneur : les dossiers de l'hôte sont montés ci-dessous.
+      DONNEES_DIR: /donnees
+      JOURNAUX_DIR: /journaux
+    volumes:
+      # Code monté depuis le dépôt (en lecture seule) : une modification est prise en compte
+      # sans reconstruire l'image.
+      - type: bind
+        source: ./src
+        target: /app/src
+        read_only: true
+      - type: bind
+        source: ./scripts
+        target: /app/scripts
+        read_only: true
+      - type: bind
+        source: ./tests
+        target: /app/tests
+        read_only: true
+      - type: bind
+        source: ./pytest.ini
+        target: /app/pytest.ini
+        read_only: true
+      # Données et journaux : dossiers de l'hôte, hors de Git (voir .env.example).
+      - type: bind
+        source: ${DONNEES_HOTE:-./donnees}
+        target: /donnees
+      - type: bind
+        source: ${JOURNAUX_HOTE:-./journaux}
+        target: /journaux
+    networks:
+      - reseau
+    # Le conteneur de travail n'a besoin d'aucun privilège particulier.
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  reseau: {}
+
+volumes:
+  donnees_postgres: {}

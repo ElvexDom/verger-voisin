@@ -1,0 +1,8 @@
+# .dockerignore : ce qui est envoyé à Docker au moment de construire l'image.
+#
+# Liste blanche : on exclut tout, puis on autorise seulement ce dont le Dockerfile a besoin
+# (les fichiers de dépendances). Ainsi le .env (secrets), les données (plusieurs Go),
+# les journaux et le dépôt Git ne sont jamais envoyés à Docker ni copiés dans une image.
+*
+!requirements.txt
+!requirements-dev.txt

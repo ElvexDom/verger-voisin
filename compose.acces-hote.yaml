@@ -1,0 +1,17 @@
+# compose.acces-hote.yaml : accès OPTIONNEL à PostgreSQL depuis le serveur lui-même.
+#
+# Par défaut (compose.yaml seul), la base n'est publiée nulle part. Ce fichier la rend
+# joignable depuis le serveur UNIQUEMENT, sur l'interface locale 127.0.0.1 : jamais sur une
+# adresse publique ni sur le réseau privé. Utile pour un tunnel SSH depuis ton poste
+# (voir docs/installation.md, section « Accès à la base depuis ton poste »).
+#
+# Utilisation (depuis la racine du dépôt) :
+#     sudo docker compose -f compose.yaml -f compose.acces-hote.yaml up -d postgres
+# Retour à l'état par défaut (base non publiée) :
+#     sudo docker compose up -d postgres
+#
+# POSTGRES_PORT_HOTE (dans .env, facultatif) : port local de l'hôte, 5432 par défaut.
+services:
+  postgres:
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT_HOTE:-5432}:5432"

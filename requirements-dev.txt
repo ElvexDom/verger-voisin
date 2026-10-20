@@ -1,0 +1,7 @@
+# Dépendances de développement : tout ce qu'il faut en production, plus les outils de test.
+# Versions à fixer après vérification sur le serveur (voir requirements.txt).
+# Ce fichier est celui installé dans l'image de travail (Dockerfile).
+-r requirements.txt
+
+# Tests automatisés.
+pytest
