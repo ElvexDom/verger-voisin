@@ -138,3 +138,26 @@ référentiel concernée, et qui l'a validée. Les entrées sont classées par d
   cœurs sont des points de départ, à ajuster après les premiers traitements.
 - **Compétences** : C1 (gestion des connexions externes et des erreurs), C4, C5.
 - **Validé par** : Nikko.
+
+## 2026-10-20 : Installation sur le serveur et versions constatées
+
+- **Action** : installation lancée sur le serveur (Ubuntu 26.04.1 LTS, Docker 29.9.1,
+  Compose v5.6.0) avec `bash scripts/installer.sh`, puis contrôle avec
+  `bash scripts/verifier.sh` et exécution des tests du socle dans le conteneur de travail.
+- **Versions réellement installées dans les conteneurs** :
+  - Python 3.12.15 ;
+  - OpenJDK 21.0.12.1 ;
+  - PySpark 4.2.0 ;
+  - PostgreSQL 17.11.
+- **Résultats** :
+  - contrôle de bon fonctionnement : 3 vérifications sur 3 réussies (PostgreSQL, Spark en mode
+    local avec 3 cœurs et 4 Go, API Open Food Facts) ;
+  - tests du socle : 133 sur 133 réussis ;
+  - la base n'est publiée sur aucun port du serveur (port 5432 interne au réseau Docker).
+- **Justification** : ces versions remplacent les hypothèses « à vérifier » de la
+  documentation d'installation. Le conteneur fixe Python 3.12, indépendamment du Python 3.14 du
+  serveur.
+- **Reste à faire** : figer les versions des dépendances Python dans les fichiers de
+  dépendances, pour que la reconstruction de l'image redonne exactement le même environnement.
+- **Compétences** : C1, C4 (procédure d'installation reproductible).
+- **Validé par** : Nikko (accord donné pour l'installation).
