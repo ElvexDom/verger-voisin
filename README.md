@@ -110,6 +110,7 @@ sudo docker compose run --rm -T travail python scripts/verification.py   # contr
 |---|---|
 | [`docs/installation.md`](docs/installation.md) | Installation pas à pas, objets techniques attendus, hypothèses à vérifier, dépannage |
 | [`docs/versionnement.md`](docs/versionnement.md) | Branches, messages de commit, lien avec les tickets GitHub, tâches et incidents |
+| [`docs/justifications.md`](docs/justifications.md) | Décisions techniques du projet et leur justification, classées par date |
 | [`.env.example`](.env.example) | Liste des variables de configuration et leur rôle (sans valeur secrète) |
 
 ## Organisation du dépôt
@@ -126,7 +127,7 @@ verger-voisin/
 ├── requirements.txt           dépendances Python de production (installées dans l'image)
 ├── requirements-dev.txt       dépendances de développement (inclut les précédentes, + pytest)
 ├── pytest.ini                 configuration des tests
-├── docs/                      installation.md, versionnement.md
+├── docs/                      installation.md, versionnement.md, justifications.md
 ├── scripts/                   installer.sh, verifier.sh (sur le serveur), verification.py
 │                              (dans le conteneur), _commun.sh
 ├── src/verger_voisin/         code (configuration et journalisation ; dossiers vides pour la suite)
