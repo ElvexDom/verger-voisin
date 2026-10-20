@@ -284,22 +284,27 @@ existe : elle n'est pas touchée » et « Image de travail construite (ou déjà
 donnée n'est supprimée ; les conteneurs déjà en route ne sont pas recréés s'ils n'ont pas changé.
 Seul le mot de passe de l'utilisateur de la base est remis à la valeur du `.env`.
 
-## 11. Étape 7 : noter les versions installées (recommandé)
+## 11. Étape 7 : versions figées et mise à jour
 
-Les fichiers `requirements*.txt` ne fixent pas de version. Une fois le contrôle au vert, enregistre
-les versions réellement installées dans l'image :
+Les versions sont figées depuis le 2026-10-20, après un contrôle réussi sur le serveur :
+
+- **images** : `IMAGE_POSTGRES=postgres:17.11-bookworm` et
+  `IMAGE_PYTHON=python:3.12.15-slim-trixie` dans `.env` ;
+- **dépendances directes** : versions exactes dans `requirements.txt` et `requirements-dev.txt` ;
+- **toutes les dépendances, indirectes comprises** : `requirements-verrou.txt`, utilisé comme
+  fichier de contraintes par le `Dockerfile`.
+
+Reconstruire l'image redonne donc exactement le même environnement.
+
+Pour mettre à jour une dépendance : change sa version dans `requirements.txt`, reconstruis l'image
+sans le verrou, relance le contrôle et les tests, puis régénère le verrou :
 
 ```bash
-sudo docker compose run --rm --no-deps -T travail pip freeze > requirements-verrouille.txt
-sudo docker compose images
+sudo docker compose run --rm --no-deps -T travail pip freeze > requirements-verrou.txt
 ```
 
-*Résultat attendu* : un fichier `requirements-verrouille.txt` (une ligne `paquet==version` par
-paquet) et la liste des images avec leur identifiant. Aucun secret : tu peux commiter le fichier.
-Pour reconstruire exactement la même image plus tard, recopie les versions voulues dans
-`requirements.txt`, puis reconstruis (`bash scripts/installer.sh`). Note aussi, dans ton rapport,
-les versions du récapitulatif de l'étape 3 (Ubuntu, Docker, Python, Java, PySpark, PostgreSQL) et
-l'identifiant de chaque image.
+*Résultat attendu* : une ligne `paquet==version` par paquet. Remets en tête du fichier le
+commentaire explicatif, puis commite-le. Aucun secret n'y figure.
 
 ## 12. Dépannage
 

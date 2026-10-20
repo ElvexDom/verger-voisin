@@ -44,8 +44,9 @@ RUN groupadd --gid "${CONTENEUR_GID}" verger \
     && chown verger:verger /app /donnees /journaux
 
 # Dépendances Python (couche séparée : elle n'est refaite que si les fichiers changent).
-COPY requirements.txt requirements-dev.txt /tmp/dependances/
-RUN pip install -r /tmp/dependances/requirements-dev.txt \
+COPY requirements.txt requirements-dev.txt requirements-verrou.txt /tmp/dependances/
+# Le verrou (-c) impose les versions exactes de toutes les dépendances, indirectes comprises.
+RUN pip install -r /tmp/dependances/requirements-dev.txt -c /tmp/dependances/requirements-verrou.txt \
     && rm -rf /tmp/dependances
 
 USER verger

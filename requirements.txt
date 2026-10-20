@@ -1,24 +1,24 @@
 # Dépendances de production de Verger Voisin.
 #
-# Les versions ne sont volontairement PAS fixées ici : version à fixer après vérification
-# sur le serveur (compatibilité de PySpark avec les versions de Python et de Java de l'image,
-# notamment). Une fois le contrôle au vert, note les versions réellement installées avec la
-# commande donnée à l'étape 7 de docs/installation.md.
+# Versions figées le 2026-10-20, après le contrôle réussi sur le serveur (Python 3.12.15,
+# OpenJDK 21). Les dépendances indirectes sont figées dans requirements-verrou.txt.
+# Pour mettre à jour une version : la changer ici, reconstruire l'image, relancer le contrôle
+# et les tests, puis régénérer requirements-verrou.txt (voir docs/installation.md).
 #
 # Ces dépendances sont installées DANS l'image de travail (Dockerfile) :
 # bash scripts/installer.sh construit l'image ; rien n'est installé sur le serveur lui-même.
 
 # Traitement massif (Spark en mode local). Le paquet embarque Spark ; Java reste à installer.
-pyspark
+pyspark==4.2.0
 # Accès à la base de données depuis Python.
-SQLAlchemy
+SQLAlchemy==2.1.5
 # Pilote PostgreSQL (version 3 de psycopg, avec ses bibliothèques intégrées).
-psycopg[binary]
+psycopg[binary]==3.3.6
 # API REST (lots suivants de E1).
-fastapi
+fastapi==0.151.0
 # Validation des données de l'API.
-pydantic
+pydantic==2.14.1
 # Serveur qui fait tourner FastAPI.
-uvicorn
+uvicorn==0.54.0
 # Appels HTTP (API Open Food Facts).
-requests
+requests==2.34.2
