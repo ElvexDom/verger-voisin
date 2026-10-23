@@ -6,7 +6,7 @@ base aux parties « spécifications techniques » et « choix » des rapports d'
 Chaque entrée indique : la décision, sa justification, les solutions écartées, la compétence du
 référentiel concernée, et qui l'a validée. Les entrées sont classées par date.
 
-Toutes les décisions de ce fichier ont été prises par Nikko, porteur et gestionnaire du projet.
+Toutes les décisions de ce fichier ont été prises par ElvexDom, porteur et gestionnaire du projet.
 Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptées par lui
 (voir la section « Méthode de travail et usage de l'IA » du `README.md`).
 
@@ -25,7 +25,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   mesurer) ; collection de pièces de 2 euros (trop peu de données pour un système big data et
   pour entraîner un modèle de reconnaissance d'images).
 - **Compétences** : C1 (présentation du projet et de son contexte).
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-11 : Les cinq sources de données
 
@@ -42,7 +42,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   marchands (conditions d'utilisation interdisant le scraping) ; Tavily (renvoie un texte déjà
   nettoyé, pas l'HTML : ne démontre pas le scraping attendu).
 - **Compétences** : C1, C3.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-11 : Outil de scraping choisi d'après le site
 
@@ -51,7 +51,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
 - **Justification** : un navigateur piloté consomme beaucoup plus de ressources ; l'utiliser
   sans nécessité va contre l'éco-conception. La page d'EUR-Lex est statique.
 - **Compétences** : C1 (« identification des contraintes techniques propres aux sources »).
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-11 : Hébergement sur le VPS existant
 
@@ -62,7 +62,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   France, dans l'Union européenne (RGPD) ; électricité française peu carbonée. L'hébergeur
   publie un rapport de durabilité annuel.
 - **Compétences** : C1 (environnement et budget), C4 (RGPD), C15 (éco-responsabilité).
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-19 : Langages et bibliothèques
 
@@ -72,7 +72,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   automatiquement une documentation au standard OpenAPI, cité par le critère de C5 ; Pydantic
   assure la validation des requêtes demandée en C5.
 - **Compétences** : C2, C5.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-19 : PostgreSQL comme système de gestion de base de données
 
@@ -84,7 +84,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   composants en même temps).
 - **Compétences** : C4 (« la base de données est choisie au regard de la modélisation des
   données et des contraintes du projet »).
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-19 : GitHub pour le code et le suivi
 
@@ -95,7 +95,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   en C21 ; les chaînes d'intégration de GitHub serviront pour E3 et E4. La licence MIT est
   courte et connue ; elle couvre le code seulement, pas les données des sources.
 - **Compétences** : C1, C3, C21.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-20 : Tout le projet en conteneurs
 
@@ -111,7 +111,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   d'Ubuntu, plus difficile à reproduire).
 - **Compétences** : C4 (« la reproduction des procédures d'installation décrites a pour
   résultat un système conforme »), C5.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-20 : La base de données n'est pas exposée sur Internet
 
@@ -121,7 +121,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
 - **Justification** : réduire la surface d'attaque ; la base n'a pas à être joignable depuis
   l'extérieur, l'accès aux données passera par l'API.
 - **Compétences** : C4, C5 (sécurisation), recommandations OWASP.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-20 : Configuration du fichier `.env` sur le serveur
 
@@ -134,13 +134,13 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
     de la place à la base, à l'API et au système ;
   - `SPARK_NB_COEURS=3` : trois des quatre cœurs, pour garder un cœur libre pour les autres
     services pendant les traitements.
-- **Mot de passe de la base** : saisi par Nikko lui-même, jamais écrit dans le dépôt, limité
+- **Mot de passe de la base** : saisi par ElvexDom lui-même, jamais écrit dans le dépôt, limité
   aux caractères que Docker Compose ne réinterprète pas.
 - **Justification** : aucun secret dans le dépôt public ; séparation des droits ; répartition
   des ressources d'un serveur partagé entre plusieurs services. Les valeurs de mémoire et de
   cœurs sont des points de départ, à ajuster après les premiers traitements.
 - **Compétences** : C1 (gestion des connexions externes et des erreurs), C4, C5.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-20 : Installation sur le serveur et versions constatées
 
@@ -163,7 +163,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
 - **Reste à faire** : figer les versions des dépendances Python dans les fichiers de
   dépendances, pour que la reconstruction de l'image redonne exactement le même environnement.
 - **Compétences** : C1, C4 (procédure d'installation reproductible).
-- **Validé par** : Nikko (accord donné pour l'installation).
+- **Validé par** : ElvexDom (accord donné pour l'installation).
 
 ## 2026-10-20 : Versions figées
 
@@ -182,7 +182,7 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
 - **Écarté** : un gestionnaire de dépendances plus complet (Poetry, uv), jugé inutile à ce
   stade : `pip` avec un fichier de contraintes suffit et reste simple à documenter.
 - **Compétences** : C4.
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.
 
 ## 2026-10-20 : Test du lien entre commit, ticket et demande de fusion
 
@@ -197,12 +197,12 @@ Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptée
   comme le demande le critère de C21 (« la procédure de débogage du code est documentée depuis
   l'outil de suivi »). La documentation a été corrigée d'après ce constat.
 - **Compétences** : C21 (préparation), critère A19 du lot 1.
-- **Validé par** : Nikko (fusion faite par lui sur GitHub).
+- **Validé par** : ElvexDom (fusion faite par lui sur GitHub).
 
 ## 2026-10-23 : Choix techniques validés après coup
 
 Treize choix avaient été appliqués par défaut pendant la mise en place, ou proposés sans
-validation explicite. Nikko les a revus un par un et validés le 23 octobre 2026.
+validation explicite. ElvexDom les a revus un par un et validés le 23 octobre 2026.
 
 | N° | Choix | Justification | Compétences |
 |---|---|---|---|
@@ -216,8 +216,8 @@ validation explicite. Nikko les a revus un par un et validés le 23 octobre 2026
 | 8 | Versionnement : commits en français, une branche par ticket, numéro du ticket dans le message, fusion par demande contenant `Closes #n` | Traçabilité de chaque tâche et de chaque incident depuis l'outil de suivi | C21 |
 | 9 | Les commits préparés avec l'assistant d'IA portent la mention « Co-Authored-By: Claude » | Transparence sur l'usage de l'IA (voir le README) | — |
 | 10 | Sauvegardes de la base traitées au lot base de données | Elles dépendent de la structure de la base, définie à ce lot | C4 |
-| 11 | Rapports : l'assistant prépare des brouillons ; Nikko les relit, les reformule et en reste l'auteur | Les rapports engagent Nikko, seul responsable du projet | E1 à E5 |
+| 11 | Rapports : l'assistant prépare des brouillons ; ElvexDom les relit, les reformule et en reste l'auteur | Les rapports engagent ElvexDom, seul responsable du projet | E1 à E5 |
 | 12 | Service d'IA de E2 : lecture d'étiquettes par OCR, avec PaddleOCR comme favori, à confirmer par le benchmark | Besoin réel (fiches incomplètes), bien relié au modèle de E3, comparable par une mesure claire (taux d'erreur par caractère) ; alternatives écartées : modèle de langage pour expliquer les substituts (plus cosmétique, plus énergivore), reconnaissance d'image du produit (redondante avec le code-barres) | C7, C8 |
 | 13 | Garde-fous du modèle de E3 : score affiché comme « estimé » et sans le logo officiel, abstention quand le modèle est peu sûr, mesure par catégorie, gravité des erreurs prise en compte, limite des produits non notés documentée | Risques de biais identifiés (sélection, information incomplète, erreurs inégales) ; le logo Nutri-Score est une marque réservée | C11, C12, C14 |
 
-- **Validé par** : Nikko.
+- **Validé par** : ElvexDom.

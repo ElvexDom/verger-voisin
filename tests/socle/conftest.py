@@ -18,7 +18,7 @@ def env_propre(monkeypatch):
     """Retire de l'environnement toute variable qui pourrait fausser un test.
 
     On supprime les variables du projet et toute variable au nom « secret », pour que les
-    tests soient identiques sur le poste de Nikko, sur le VPS ou ailleurs.
+    tests soient identiques sur le poste de ElvexDom, sur le VPS ou ailleurs.
     """
     import os
 

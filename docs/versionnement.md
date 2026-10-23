@@ -4,7 +4,7 @@ Ce document fixe comment on utilise Git et GitHub dans Verger Voisin : branches,
 commit, lien entre commits et tickets, vie d'un ticket de tâche et d'un ticket d'incident.
 Le dépôt est **public** : tout ce qui est poussé est visible de tous (voir la section 7).
 
-Un seul contributeur (Nikko) : les règles sont volontairement simples.
+Un seul contributeur (ElvexDom) : les règles sont volontairement simples.
 
 ## 1. Principes
 

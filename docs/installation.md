@@ -69,7 +69,7 @@ des variables du `.env` pour être changées sans toucher au code.
 
 ## 3. Le circuit du code (rappel)
 
-Les fichiers sont écrits sur le poste de Nikko, poussés sur GitHub, puis récupérés sur le serveur.
+Les fichiers sont écrits sur le poste de ElvexDom, poussés sur GitHub, puis récupérés sur le serveur.
 Le serveur ne reçoit **rien** tant que tu n'as pas fait `git push` (poste) puis `git pull`
 (serveur). Détail dans le `README.md`, section « Le circuit ».
 

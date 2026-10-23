@@ -31,22 +31,22 @@ d'erreur dans `docs/versionnement.md`, section 7.
 
 ## Méthode de travail et usage de l'IA
 
-Ce projet est conçu, piloté et décidé par **Nikko**, qui en est le seul responsable. Il a fixé
+Ce projet est conçu, piloté et décidé par **ElvexDom**, qui en est le seul responsable. Il a fixé
 le sujet, le commanditaire fictif, les sources de données, l'architecture et chacun des choix
 techniques ; chaque décision et sa justification sont consignées, datées, dans
 [`docs/justifications.md`](docs/justifications.md).
 
 Un assistant d'IA (Claude, d'Anthropic) a été utilisé comme **outil de travail** : recherches
 et vérifications de sources, propositions d'options, rédaction de code, de tests et de
-documentation. Pour l'organiser, Nikko a conçu et paramétré une **équipe d'agents d'IA
+documentation. Pour l'organiser, ElvexDom a conçu et paramétré une **équipe d'agents d'IA
 spécialisés**, chacun limité à un seul rôle (recherche, cadrage, planification, développement,
 tests), sans droit d'exécuter des commandes ni d'accéder au web, et coordonnés sous son
 contrôle selon des règles qu'il a fixées : confirmation avant toute action irréversible ou
 visible à l'extérieur, contrôle de chaque production, journal de toutes les actions.
 
-L'assistant n'a aucun pouvoir de décision : chaque proposition est soumise à Nikko, qui la
+L'assistant n'a aucun pouvoir de décision : chaque proposition est soumise à ElvexDom, qui la
 valide, la modifie ou la refuse avant qu'elle soit intégrée, et toute action sur le serveur ou
-sur ce dépôt se fait avec son accord. Nikko garde la main sur l'ensemble du projet.
+sur ce dépôt se fait avec son accord. ElvexDom garde la main sur l'ensemble du projet.
 
 ## Le circuit : de ton poste au serveur
 

@@ -44,7 +44,7 @@ LONGUEUR_MAX_DETAIL = 600
 
 
 class EchecVerification(Exception):
-    """Échec attendu d'une vérification, avec un message clair pour Nikko."""
+    """Échec attendu d'une vérification, avec un message clair pour ElvexDom."""
 
 
 def verifier_postgres() -> tuple[str, list[str]]:
