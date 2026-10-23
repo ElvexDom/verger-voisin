@@ -7,7 +7,7 @@
 # Les versions viennent de variables (arguments de construction) : compose.yaml les lit dans
 # le fichier .env, voir .env.example. Elles se changent sans toucher à ce fichier.
 #
-# HYPOTHÈSES À VÉRIFIER SUR LE SERVEUR (aucune n'a été testée par Octet, qui n'exécute rien) :
+# HYPOTHÈSES DE DÉPART, VÉRIFIÉES SUR LE SERVEUR LE 2026-10-20 (voir docs/justifications.md) :
 #   - l'étiquette python:3.12-slim-trixie existe sur Docker Hub (image officielle Python 3.12,
 #     système Debian « trixie ») ;
 #   - le paquet openjdk-21-jre-headless existe dans ce Debian (apt-cache policy dans l'image) ;

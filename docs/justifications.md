@@ -6,6 +6,10 @@ base aux parties « spécifications techniques » et « choix » des rapports d'
 Chaque entrée indique : la décision, sa justification, les solutions écartées, la compétence du
 référentiel concernée, et qui l'a validée. Les entrées sont classées par date.
 
+Toutes les décisions de ce fichier ont été prises par Nikko, porteur et gestionnaire du projet.
+Les propositions faites par un assistant d'IA n'y figurent qu'une fois acceptées par lui
+(voir la section « Méthode de travail et usage de l'IA » du `README.md`).
+
 ---
 
 ## 2026-10-11 : Sujet et commanditaire
@@ -117,8 +121,7 @@ référentiel concernée, et qui l'a validée. Les entrées sont classées par d
 - **Justification** : réduire la surface d'attaque ; la base n'a pas à être joignable depuis
   l'extérieur, l'accès aux données passera par l'API.
 - **Compétences** : C4, C5 (sécurisation), recommandations OWASP.
-- **Validé par** : Ulysse, dans le cadre des décisions par défaut du lot 1 ; non contesté par
-  Nikko.
+- **Validé par** : Nikko.
 
 ## 2026-10-20 : Configuration du fichier `.env` sur le serveur
 
@@ -195,3 +198,26 @@ référentiel concernée, et qui l'a validée. Les entrées sont classées par d
   l'outil de suivi »). La documentation a été corrigée d'après ce constat.
 - **Compétences** : C21 (préparation), critère A19 du lot 1.
 - **Validé par** : Nikko (fusion faite par lui sur GitHub).
+
+## 2026-10-23 : Choix techniques validés après coup
+
+Treize choix avaient été appliqués par défaut pendant la mise en place, ou proposés sans
+validation explicite. Nikko les a revus un par un et validés le 23 octobre 2026.
+
+| N° | Choix | Justification | Compétences |
+|---|---|---|---|
+| 1 | La base PostgreSQL n'est publiée sur aucun port du serveur ; seuls les conteneurs du projet la joignent | Réduire la surface d'attaque ; l'accès aux données passe par l'API | C4, C5 |
+| 2 | Environnement : Python 3.12, Java 21, PySpark 4.2.0, PostgreSQL 17 | Combinaison vérifiée sur le serveur (contrôle à 3 sur 3, 133 tests sur 133), indépendante du Python 3.14 du système | C1, C4 |
+| 3 | Conteneurs durcis : utilisateur non administrateur, droits système retirés, code monté en lecture seule | Limiter les dégâts possibles d'une faille, sans contrepartie fonctionnelle | C5, C17 |
+| 4 | Mot de passe de la base limité aux lettres, chiffres et `. _ + = : , -` | Contrainte de Docker Compose, qui réinterprète les autres caractères du `.env` ; compensée par la longueur (48 caractères aléatoires recommandés) | C4 |
+| 5 | Identification auprès de l'API Open Food Facts par le nom du projet et le lien du dépôt, sans adresse électronique | Identification exigée par l'API, sans créer de donnée personnelle | C1, C4 |
+| 6 | Aucun secret ni donnée personnelle dans les journaux, avec masquage automatique des secrets | Exigence du RGPD et de sécurité ; le masquage est couvert par des tests | C4, C20 |
+| 7 | Données hors de Git, dans le dossier `donnees/` ignoré par le dépôt | Dépôt public ; volumes importants ; licences des sources | C1, C3 |
+| 8 | Versionnement : commits en français, une branche par ticket, numéro du ticket dans le message, fusion par demande contenant `Closes #n` | Traçabilité de chaque tâche et de chaque incident depuis l'outil de suivi | C21 |
+| 9 | Les commits préparés avec l'assistant d'IA portent la mention « Co-Authored-By: Claude » | Transparence sur l'usage de l'IA (voir le README) | — |
+| 10 | Sauvegardes de la base traitées au lot base de données | Elles dépendent de la structure de la base, définie à ce lot | C4 |
+| 11 | Rapports : l'assistant prépare des brouillons ; Nikko les relit, les reformule et en reste l'auteur | Les rapports engagent Nikko, seul responsable du projet | E1 à E5 |
+| 12 | Service d'IA de E2 : lecture d'étiquettes par OCR, avec PaddleOCR comme favori, à confirmer par le benchmark | Besoin réel (fiches incomplètes), bien relié au modèle de E3, comparable par une mesure claire (taux d'erreur par caractère) ; alternatives écartées : modèle de langage pour expliquer les substituts (plus cosmétique, plus énergivore), reconnaissance d'image du produit (redondante avec le code-barres) | C7, C8 |
+| 13 | Garde-fous du modèle de E3 : score affiché comme « estimé » et sans le logo officiel, abstention quand le modèle est peu sûr, mesure par catégorie, gravité des erreurs prise en compte, limite des produits non notés documentée | Risques de biais identifiés (sélection, information incomplète, erreurs inégales) ; le logo Nutri-Score est une marque réservée | C11, C12, C14 |
+
+- **Validé par** : Nikko.

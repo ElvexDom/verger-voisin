@@ -48,13 +48,13 @@ ton `.env`.
 
 ## 2. Hypothèses à vérifier sur le serveur
 
-Les versions et étiquettes ci-dessous sont des **hypothèses de travail**, non vérifiées par
-Octet (il n'exécute aucune commande). Elles sont écrites dans des variables du `.env` pour être
-changées sans toucher au code.
+Les versions et étiquettes ci-dessous étaient les **hypothèses de départ** ; elles ont été
+vérifiées sur le serveur le 2026-10-20 (voir `docs/justifications.md`). Elles sont écrites dans
+des variables du `.env` pour être changées sans toucher au code.
 
 | Hypothèse | Pourquoi elle compte | Comment la vérifier |
 |---|---|---|
-| Docker 29.9.1 et Docker Compose v5.6.0 sont installés et actifs sur Ubuntu 26.04.1 LTS | constaté par Ulysse le 2026-10-20 ; tout en dépend | objets 3 et 4 du tableau ; `lsb_release -d` |
+| Docker 29.9.1 et Docker Compose v5.6.0 sont installés et actifs sur Ubuntu 26.04.1 LTS | constaté sur le serveur le 2026-10-20 ; tout en dépend | objets 3 et 4 du tableau ; `lsb_release -d` |
 | L'option `docker compose up --wait` (attendre qu'un service soit en bonne santé) existe dans cette version de Compose | le script d'installation l'utilise | `docker compose up --help` doit lister `--wait` |
 | L'étiquette `postgres:17-bookworm` (variable `IMAGE_POSTGRES`) existe sur Docker Hub | sans elle, la base ne démarre pas | `sudo docker pull postgres:17-bookworm` ; sinon chercher une étiquette existante sur la page Docker Hub de l'image `postgres` |
 | PostgreSQL 17 convient (version majeure choisie en hypothèse) | un changement de version majeure demande une migration des données | `sudo docker compose exec postgres postgres --version` |
@@ -81,11 +81,12 @@ docker compose version
 systemctl is-active docker
 ```
 
-*Résultat attendu* : une version de Docker (29.9.1 d'après Ulysse), une version de Compose
-(v5.6.0 d'après Ulysse), puis `active`.
+*Résultat attendu* : une version de Docker (29.9.1 au 2026-10-20), une version de Compose
+(v5.6.0 au 2026-10-20), puis `active`.
 
 *Si ça échoue* : `docker: command not found` -> Docker n'est pas installé : l'installation de
-Docker sur le serveur n'est pas faite par ce dépôt, préviens Ulysse. `inactive` -> `sudo systemctl
+Docker sur le serveur n'est pas faite par ce dépôt : installer Docker et Docker Compose avant de
+continuer. `inactive` -> `sudo systemctl
 start docker`.
 
 Pour savoir si tu as besoin de `sudo` : `docker ps`. Si la réponse est `permission denied while
@@ -311,7 +312,7 @@ commentaire explicatif, puis commite-le. Aucun secret n'y figure.
 | Symptôme | Cause probable | Que faire |
 |---|---|---|
 | `[ERREUR] Ne lance pas ce script en root ni avec sudo` | script lancé avec `sudo` | relancer sans `sudo` : `bash scripts/installer.sh` |
-| `La commande docker est introuvable` | Docker absent | préviens Ulysse : Docker devait être installé (constaté le 2026-10-20) |
+| `La commande docker est introuvable` | Docker absent | installer Docker et Docker Compose (hors du périmètre de ce dépôt), puis relancer |
 | `permission denied while trying to connect to the Docker daemon socket` (commande lancée à la main) | utilisateur hors du groupe `docker` | ajouter `sudo` devant la commande |
 | `Le démon Docker ne répond pas` | service arrêté | `sudo systemctl status docker` puis `sudo systemctl start docker` |
 | `Variable(s) vide(s) dans .env` | `.env` pas rempli | éditer `.env` (`nano .env`) puis relancer |
@@ -324,7 +325,7 @@ commentaire explicatif, puis commite-le. Aucun secret n'y figure.
 | Construction : `useradd: UID ... is not unique` | un utilisateur de l'image a déjà cet identifiant | indiquer d'autres `CONTENEUR_UID` / `CONTENEUR_GID` dans `.env` (non nuls) : attention, ils doivent pouvoir écrire dans les dossiers `DONNEES_HOTE` et `JOURNAUX_HOTE` |
 | `dependency failed to start: container ... is unhealthy` ou attente dépassée | la base ne démarre pas | `sudo docker compose logs postgres` |
 | Étape « mot de passe » : `role "..." does not exist` | le volume de la base a été créé avec un autre `POSTGRES_USER` | remettre dans `.env` le nom d'utilisateur de la première installation. Le script ne supprime jamais de volume ; supprimer le volume (donc la base) est ta décision, avec une sauvegarde |
-| Étape « mot de passe » : `password authentication failed` | l'image n'accepte pas la connexion locale sans mot de passe (hypothèse de la section 2 fausse) | `sudo docker compose logs postgres` ; signaler l'écart à Octet |
+| Étape « mot de passe » : `password authentication failed` | l'image n'accepte pas la connexion locale sans mot de passe (hypothèse de la section 2 fausse) | `sudo docker compose logs postgres` ; ouvrir un ticket d'incident décrivant l'écart |
 | Contrôle, PostgreSQL : `ÉCHEC ... password authentication failed` | mot de passe du `.env` différent de celui de la base | relancer `bash scripts/installer.sh` (il resynchronise le mot de passe) |
 | Contrôle, PostgreSQL : `ÉCHEC ... could not translate host name "postgres"` ou `Connection refused` | base arrêtée ou conteneur de travail hors du réseau du projet | `sudo docker compose ps` ; relancer `bash scripts/installer.sh` |
 | Contrôle, Spark : `Java est introuvable` | image sans Java | reconstruire : `bash scripts/installer.sh` ; `... travail java -version` |

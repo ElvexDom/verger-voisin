@@ -29,6 +29,25 @@ garde tout). **Ne pousse jamais :**
 Avant chaque `git push` : `git status`, puis `git diff --staged`. Détail et marche à suivre en cas
 d'erreur dans `docs/versionnement.md`, section 7.
 
+## Méthode de travail et usage de l'IA
+
+Ce projet est conçu, piloté et décidé par **Nikko**, qui en est le seul responsable. Il a fixé
+le sujet, le commanditaire fictif, les sources de données, l'architecture et chacun des choix
+techniques ; chaque décision et sa justification sont consignées, datées, dans
+[`docs/justifications.md`](docs/justifications.md).
+
+Un assistant d'IA (Claude, d'Anthropic) a été utilisé comme **outil de travail** : recherches
+et vérifications de sources, propositions d'options, rédaction de code, de tests et de
+documentation. Pour l'organiser, Nikko a conçu et paramétré une **équipe d'agents d'IA
+spécialisés**, chacun limité à un seul rôle (recherche, cadrage, planification, développement,
+tests), sans droit d'exécuter des commandes ni d'accéder au web, et coordonnés sous son
+contrôle selon des règles qu'il a fixées : confirmation avant toute action irréversible ou
+visible à l'extérieur, contrôle de chaque production, journal de toutes les actions.
+
+L'assistant n'a aucun pouvoir de décision : chaque proposition est soumise à Nikko, qui la
+valide, la modifie ou la refuse avant qu'elle soit intégrée, et toute action sur le serveur ou
+sur ce dépôt se fait avec son accord. Nikko garde la main sur l'ensemble du projet.
+
 ## Le circuit : de ton poste au serveur
 
 Les fichiers ne sont pas écrits sur le serveur. Ils suivent un circuit en trois étapes, et **rien
@@ -38,13 +57,12 @@ n'arrive sur le serveur tant que les étapes 2 et 3 ne sont pas faites** :
  1. ÉCRITURE                 2. PUSH                    3. PULL
  Dossier verger-voisin/  -->  GitHub (dépôt public)  -->  Serveur (dépôt cloné)
  sur ton poste                git push                    git pull
- (fichiers écrits par Octet,  (c'est toi qui pousses)     (c'est toi qui récupères,
-  ou modifiés par toi)                                     puis qui lances les scripts)
+ (fichiers créés            (c'est toi qui pousses)     (c'est toi qui récupères,
+  ou modifiés)                                             puis qui lances les scripts)
 ```
 
 1. **Écriture** : les fichiers sont créés dans le dossier `verger-voisin/` de ton poste. Ce
-   dossier est un dépôt Git à part, indépendant du dépôt `cap-odyssee` qui le contient (celui-ci
-   l'ignore).
+   dossier est un dépôt Git à part, indépendant de l'espace de travail local qui le contient.
 2. **Push** : depuis le dossier `verger-voisin/` de ton poste.
    Première fois seulement (après avoir créé sur GitHub un dépôt **vide** nommé `verger-voisin`,
    sans README ni `.gitignore` ajoutés par GitHub) :
@@ -62,13 +80,13 @@ n'arrive sur le serveur tant que les étapes 2 et 3 ne sont pas faites** :
    cloné (voir `docs/installation.md`, étape 1).
 
 Le `.env` du serveur n'existe qu'à cet endroit : il ne fait jamais le circuit.
-Ce `.env` est aussi distinct de celui du projet `cap-odyssee` (autre usage, autre dépôt).
+Ce `.env` est propre à ce projet : il ne se partage avec aucun autre.
 
 ## Prérequis
 
 - Un serveur sous **Ubuntu 26.04 LTS** (4 cœurs, 16 Go de mémoire, sans GPU), avec un accès SSH,
   **Docker** et **Docker Compose** déjà installés et actifs (Docker 29.9.1 et Compose v5.6.0
-  constatés par Ulysse le 2026-10-20), et Git.
+  constatés sur le serveur le 2026-10-20), et Git.
 - Un utilisateur du serveur avec les droits `sudo`, ou membre du groupe `docker`. **Tant que ton
   utilisateur n'est pas dans le groupe `docker`, les commandes Docker se lancent avec `sudo`**
   (`sudo docker compose ...`). Les scripts `installer.sh` et `verifier.sh` appellent `sudo`
